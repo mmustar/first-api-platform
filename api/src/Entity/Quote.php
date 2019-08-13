@@ -3,11 +3,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 
 
 /**
@@ -21,6 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={"GET"={"normalization_context"={"groups"={"quote_list"}}},
  *          "POST"}
  *  )
+ * @ApiFilter(SearchFilter::class, properties={"value":"ipartial"})
+ * @ApiFilter(PropertyFilter::class)
  * @ORM\Entity()
  *
  */
@@ -38,11 +43,12 @@ class Quote
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Groups({"Quote_write", "Quote_read", "quote_list"})
+     * @Groups({"owner_read"})
      */
     private $value;
     /**
-     *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Owner", inversedBy="quotes")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      * @Groups({"Quote_write", "Quote_read"})
      */
     private $owner;
@@ -74,7 +80,7 @@ class Quote
     /**
      * @param mixed $owner
      */
-    public function setOwner($owner): void
+    public function setOwner(?Owner $owner): void
     {
         $this->owner = $owner;
     }

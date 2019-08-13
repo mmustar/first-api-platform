@@ -1,4 +1,6 @@
 App\Entity\Quote:
     QuoteTest_{1..50}:
         value: <text()>
-        owner: <name()>
+        #owner: '@OwnerTest_<current()>'
+        #RAMDOM
+        owner: '@OwnerTest_*'

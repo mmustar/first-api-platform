@@ -1,0 +1,3 @@
+App\Entity\Owner:
+    OwnerTest_{1..50}:
+        name: <name()>
