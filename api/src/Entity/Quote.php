@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use App\Dto\SendQuoteDto;
 
 
 /**
@@ -20,7 +21,9 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  *     paginationClientEnabled=true,
  *     denormalizationContext={"groups"={"Quote_write"}},
  *     normalizationContext={"groups"={"Quote_read"}},
- *     itemOperations={"GET", "PUT"},
+ *     itemOperations={"GET", "PUT",
+ *     "send_to_dom"={"input"=SendQuoteDto::class, "method"="PATCH", "output"=false, "status"=202, "path"="/quotes/{id}/sendToDom"},
+ *     },
  *     collectionOperations={"GET"={"normalization_context"={"groups"={"quote_list"}}},
  *          "POST"}
  *  )
